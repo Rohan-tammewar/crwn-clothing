@@ -2,9 +2,9 @@
 import { initializeApp } from 'firebase/app'
 import {
   getAuth,
-  signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
 } from 'firebase/auth'
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
@@ -18,9 +18,9 @@ const firebaseConfig = {
 }
 
 const firebaseApp = initializeApp(firebaseConfig)
-const provider = new GoogleAuthProvider()
+const googleProvider = new GoogleAuthProvider()
 
-provider.setCustomParameters({
+googleProvider.setCustomParameters({
   prompt: 'select_account',
 })
 // Initialize Firebase
@@ -28,10 +28,13 @@ export const db = getFirestore()
 
 export const auth = getAuth()
 
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider)
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 
 // Creating the user document in firestore after authentication
-export const createuserDocumentFromAuth = async function ({ user }) {
+export const createUserDocumentFromAuth = async function (
+  user,
+  additionalinformaion = {},
+) {
   //Getting th document reference of the paticular user document instance
   const userDocRef = doc(db, 'users', user.uid) //this function creates a document if it is not there
 
@@ -43,7 +46,12 @@ export const createuserDocumentFromAuth = async function ({ user }) {
     const { displayName, email } = user
     const createdAt = new Date()
     try {
-      await setDoc(userDocRef, { displayName, email, createdAt })
+      await setDoc(userDocRef, {
+        displayName,
+        email,
+        createdAt,
+        ...additionalinformaion,
+      })
     } catch (error) {
       console.error(
         `Could not create users document for ${displayName} Reason: ${error.message}`,
@@ -51,4 +59,10 @@ export const createuserDocumentFromAuth = async function ({ user }) {
     }
   }
   return userDocRef
+}
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return
+
+  return await createUserWithEmailAndPassword(auth, email, password)
 }
