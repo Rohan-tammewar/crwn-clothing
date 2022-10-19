@@ -6,6 +6,7 @@ import {
 import FormInput from '../form-input/form-input.component'
 import './sign-up-form.styles.scss'
 import Button from '../button/button.component'
+
 const SignUpForm = () => {
   const defaultFormFields = {
     displayName: '',
@@ -30,9 +31,8 @@ const SignUpForm = () => {
       return
     }
     try {
-      const userData = await createAuthUserWithEmailAndPassword(email, password)
-      console.log(userData)
-      await createUserDocumentFromAuth(userData.user, { displayName })
+      const { user } = await createAuthUserWithEmailAndPassword(email, password)
+      await createUserDocumentFromAuth(user, { displayName })
     } catch (error) {
       console.log('Isssue while creating user', error.message)
     }

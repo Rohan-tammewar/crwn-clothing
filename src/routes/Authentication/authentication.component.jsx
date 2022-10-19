@@ -8,8 +8,7 @@ import { Fragment } from 'react/cjs/react.production.min'
 const Authentication = () => {
   return (
     <Fragment>
-      <div class="authentication-container">
-        <h1>Sign In Page</h1>
+      <div className="authentication-container">
         <SignInForm />
         <SignUpForm />
       </div>
