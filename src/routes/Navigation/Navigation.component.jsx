@@ -11,7 +11,7 @@ import { CartItemContext } from '../../contexts/cartItem.context'
 const Navigation = () => {
   const { currentUser } = useContext(UserContext)
   const { cartVisible } = useContext(CartItemContext)
-  console.log(cartVisible)
+
   return (
     <Fragment>
       <div className="navigation">
