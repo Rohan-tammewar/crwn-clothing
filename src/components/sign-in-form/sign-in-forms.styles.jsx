@@ -1,4 +1,6 @@
-.sign-in-form-container {
+import styled from 'styled-components'
+
+export const SignInFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 400px;
@@ -9,4 +11,4 @@
     display: flex;
     justify-content: space-between;
   }
-}
+`
