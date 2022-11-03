@@ -36,7 +36,7 @@ const SignInForm = () => {
       resetFormFields()
     } catch (error) {
       switch (error.code.toLowerCase()) {
-        case '*auth/wrong-password*':
+        case 'auth/wrong-password':
           alert('Wrong password')
           break
         case 'auth/user-not-found':
